@@ -1,0 +1,35 @@
+<div class="admin-dashboard">
+  <h2>Admin Dashboard</h2>
+
+  <div *ngIf="users.length === 0">No users to display.</div>
+
+  <table *ngIf="users.length > 0">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Role</th>
+        <th>Specialization</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.username }}</td>
+        <td>
+          <select
+            [(ngModel)]="user.role"
+            (change)="updateRole(user.id, user.role)"
+          >
+            <option value="user">User</option>
+            <option value="doctor">Doctor</option>
+            <option value="admin">Admin</option>
+          </select>
+        </td>
+        <td>{{ user.specialization || "N/A" }}</td>
+        <td>
+          <button (click)="deleteUser(user.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

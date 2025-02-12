@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  styleUrls: ['./login.component.scss'],
   imports: [RouterModule, CommonModule, FormsModule]
 
 })
@@ -30,27 +30,20 @@ export class LoginComponent implements OnInit {
 
   // Login or logout based on the current state
   onAuthButtonClick(): void {
-    if (this.isLoggedIn) {
-      // If already logged in, logout
-      this.authService.logout();  // Log the user out
-      this.isLoggedIn = false;  // Update the state
-      this.router.navigate(['/login']);  // Redirect to login page
-    } else {
+    
       // Login logic here
-
       // Call the login API and pass the username/password
-      this.authService.login(this.username, this.password).subscribe({
-        next: (response) => {
-          // If login is successful, update state
-          this.isLoggedIn = true;  // Update the state
-          this.loginError = null;  // Clear any previous error
-          this.router.navigate(['/']);  // Redirect to dashboard
-        },
-        error: (error) => {
-          // Handle login failure (invalid credentials)
-          this.loginError = 'Invalid credentials, please try again.';
-        }
-      });
-    }
+    this.authService.login(this.username, this.password).subscribe({
+      next: (response) => {
+        // If login is successful, update state
+        this.isLoggedIn = true;  // Update the state
+        this.loginError = null;  // Clear any previous error
+        this.router.navigate(['/']);  // Redirect to dashboard
+      },
+      error: (error) => {
+        // Handle login failure (invalid credentials)
+        this.loginError = 'Invalid credentials, please try again.';
+      }
+    });
   }
 }

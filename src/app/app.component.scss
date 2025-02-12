@@ -1,7 +1,7 @@
 .navbar {
     background-color: #333;
     padding: 1rem 2rem;
-    color: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); 
   }
   
   .navbar-container {
@@ -10,30 +10,21 @@
     align-items: center;
   }
   
-  .navbar-links {
-    display: flex;
-    list-style: none;
-    text-decoration: none;
-  }
   
   .navbar-links li {
     margin-right: 2rem;
   }
-  
-  .navbar-links a {
-    color: white;
-    text-decoration: none;
-    font-size: 1.1rem;
+
+  .navbar-links{
+    display: flex;
+    list-style: none;
   }
-  
-  .navbar-links a:hover {
-    text-decoration: underline;
-  }
-  
+
   #page-contents {
     position: absolute;  
     text-align: center;  
-    justify-content: space-between;   
+    justify-content: space-between; 
+    background-color: #333;  
     top: 50%;                 
     left: 50%;              
     transform: translate(-50%, -50%);  
@@ -48,5 +39,44 @@
   #logo{
     width: 50px;
     height: 50px;
+  }
+  
+  /* footer.component.scss */
+.footer {
+    background-color: #333;
+    color: white;
+    padding: 0 0;
+    position: absolute;
+    margin-left: -8px;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  .footer .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .footer-links {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .footer-links a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .footer-links a:hover {
+    color: #007bff;
   }
   
