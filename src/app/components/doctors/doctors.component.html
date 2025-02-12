@@ -1,0 +1,28 @@
+<div *ngIf="users$ | async as users; else loading">
+  <table>
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Specialization</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Loop through users and filter for doctors -->
+      <tr *ngFor="let user of users">
+        <td *ngIf="user.role === 'doctor'">
+          <!-- Updated routerLink to include user ID -->
+          <a [routerLink]="['/profile', user.id]">
+            {{ user.username }}
+          </a>
+        </td>
+        <td *ngIf="user.role === 'doctor'">
+          {{ user.specialization || "N/A" }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #loading>
+  <p>Loading users...</p>
+</ng-template>

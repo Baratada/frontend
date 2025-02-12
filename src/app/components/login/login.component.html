@@ -1,0 +1,37 @@
+<!-- login.component.html -->
+<div>
+  <h2>{{ isLoggedIn ? "Welcome" : "Please Login" }}</h2>
+
+  <div *ngIf="!isLoggedIn">
+    <form (ngSubmit)="onAuthButtonClick()">
+      <label for="username">Username:</label>
+      <input
+        type="text"
+        id="username"
+        [(ngModel)]="username"
+        name="username"
+        required
+      />
+
+      <label for="password">Password:</label>
+      <input
+        type="password"
+        id="password"
+        [(ngModel)]="password"
+        name="password"
+        required
+      />
+
+      <button type="submit">{{ isLoggedIn ? "Logout" : "Login" }}</button>
+
+      <!-- Show error message if login fails -->
+      <div *ngIf="loginError" class="error-message">
+        {{ loginError }}
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="isLoggedIn">
+    <button (click)="onAuthButtonClick()">Logout</button>
+  </div>
+</div>
