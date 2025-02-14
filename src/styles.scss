@@ -1,8 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 body{
-    background-color: lightblue;
-    color: rgb(229, 243, 243);
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+  background-image: linear-gradient(to bottom, rgb(220, 236, 241), rgb(156, 235, 255));
+  color: rgb(229, 243, 243);
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  height: 100vh; /* Make sure it covers the full viewport height */
+  margin: 0;
 }
 
 a{

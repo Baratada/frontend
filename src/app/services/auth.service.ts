@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, BehaviorSubject, throwError } from 'rxjs';
+import { tap, switchMap, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +9,7 @@ import { tap } from 'rxjs/operators';
 export class AuthService {
   private apiUrl = 'http://localhost:5000/api/auth';  // Your backend API
   private tokenKey = 'auth_token';  // Key for storing the token in localStorage
+  private refreshTokenKey = 'refresh_token'; // Key for storing refresh token
   private roleKey = 'user_role'; // Key for storing user role in localStorage
   private userIdKey = 'user_id'; // Key for storing user id in localStorage
 
@@ -31,17 +32,19 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/login`, { username, password }).pipe(
       tap(response => {
         localStorage.setItem(this.tokenKey, response.access_token);
-        localStorage.setItem(this.roleKey, response.role); // Store the role
-        localStorage.setItem(this.userIdKey, this.decodeJwtToken(response.access_token)?.id || ''); // Extract and store user id from JWT
+        localStorage.setItem(this.refreshTokenKey, response.refresh_token);  // Store refresh token
+        localStorage.setItem(this.roleKey, response.role);
+        localStorage.setItem(this.userIdKey, response.user_id);
         this.loginStateSubject.next(true);
         this.roleSubject.next(response.role);
-        this.userIdSubject.next(this.decodeJwtToken(response.access_token)?.id || ''); // Update userId from JWT
+        this.userIdSubject.next(response.user_id);
       })
     );
   }
 
   logout(): void {
     localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.refreshTokenKey);  // Remove refresh token as well
     localStorage.removeItem(this.roleKey);
     localStorage.removeItem(this.userIdKey);
     this.loginStateSubject.next(false);
@@ -71,5 +74,39 @@ export class AuthService {
       return parsed.sub; // Return the user_id (commonly in 'sub' field, but check your backend's JWT format)
     }
     return null;
+  }
+
+  // Get a new access token using the refresh token
+  refreshToken(): Observable<any> {
+    const refreshToken = localStorage.getItem(this.refreshTokenKey);  // Get the refresh token
+    if (!refreshToken) {
+      return throwError(() => new Error('No refresh token found'));
+    }
+
+    return this.http.post<any>(`${this.apiUrl}/refresh`, { refresh_token: refreshToken }).pipe(
+      tap(response => {
+        localStorage.setItem(this.tokenKey, response.access_token); // Store the new access token
+      }),
+      catchError(err => {
+        return throwError(() => new Error('Failed to refresh token'));
+      })
+    );
+  }
+
+  // Automatically refresh the token if expired
+  private handleAuthError(error: any): Observable<any> {
+    if (error.status === 401) {
+      // If the token is expired, attempt to refresh it
+      return this.refreshToken().pipe(
+        switchMap(() => {
+          const newToken = localStorage.getItem('auth_token');
+          if (newToken) {
+            return this.http.request(error.request);  // Retry the original request with the new token
+          }
+          return throwError(() => new Error('Failed to refresh token'));
+        })
+      );
+    }
+    return throwError(() => error);
   }
 }

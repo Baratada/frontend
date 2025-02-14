@@ -29,9 +29,13 @@ export class UserService {
 
   // Update User Role
   updateRole(userId: number, role: string): Observable<any> {
-    return this.http.patch(`${this.adminApiUrl}/update-role/${userId}`, { role }, {
+    return this.http.patch(`${this.adminApiUrl}/update-role/${userId}/${role}`, {}, {
       headers: this.getAuthHeaders(),
-    });  // Update user role
+    }); // Update user role
+  }
+
+  updateSpecialization(userId: number, specialization: string): Observable<any> {
+    return this.http.patch(`${this.adminApiUrl}/update-specialization/${userId}/${specialization}`, {}, {headers: this.getAuthHeaders()});
   }
 
   // Delete User
@@ -43,7 +47,7 @@ export class UserService {
 
   // Helper function to get Authorization headers
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('access_token');  // Retrieve 'access_token' from local storage
+    const token = localStorage.getItem('auth_token');  // Retrieve 'access_token' from local storage
     console.log("Token being sent:", token);
 
     return new HttpHeaders({

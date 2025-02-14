@@ -9,7 +9,7 @@ import { PatientsComponent } from './app/components/patients/patients.component'
 import { AppointmentsComponent } from './app/components/appointments/appointments.component';
 import { RegisterComponent } from './app/components/register/register.component';
 import { ProfileComponent } from './app/components/profile/profile.component';
-import { AdminDashboardComponent } from './app/admin-dashboard/admin-dashboard.component';
+import { AdminDashboardComponent } from './app/components/admin-dashboard/admin-dashboard.component';
 
 import { authGuard } from './app/guards/auth.guard';
 

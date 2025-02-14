@@ -1,0 +1,57 @@
+<div class="admin-dashboard">
+  <h2>Admin Dashboard</h2>
+
+  <div *ngIf="users.length === 0">No users to display.</div>
+
+  <table *ngIf="users.length > 0">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Role</th>
+        <th>Specialization</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.username }}</td>
+        <td>
+          <select
+            [(ngModel)]="user.role"
+            (change)="updateRole(user.id, user.role)"
+          >
+            <option value="user">User</option>
+            <option value="doctor">Doctor</option>
+            <option value="admin">Admin</option>
+          </select>
+        </td>
+        <td>
+          <select
+            *ngIf="user?.role === 'doctor'"
+            [(ngModel)]="user.specialization"
+            (change)="
+              updateSpecialization(user.id, user.specialization || 'none')
+            "
+          >
+            <option value="None">None</option>
+            <option value="Cardiology">Cardiology</option>
+            <option value="Dermatology">Dermatology</option>
+            <option value="Endocrinology">Endocrinology</option>
+            <option value="Gastroenterology">Gastroenterology</option>
+            <option value="Hematology">Hematology</option>
+            <option value="Infectious Disease">Infectious Disease</option>
+            <option value="Nephrology">Nephrology</option>
+            <option value="Neurology">Neurology</option>
+            <option value="Oncology">Oncology</option>
+            <option value="Pulmonology">Pulmonology</option>
+            <option value="Rheumatology">Rheumatology</option>
+            <option value="Urology">Urology</option>
+          </select>
+        </td>
+        <td>
+          <button (click)="deleteUser(user.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
