@@ -5,4 +5,5 @@ export interface User {
   password_hash: string;
   role: string;  // Can be 'user', 'doctor', or 'admin'
   specialization?: string;  // Only applies to doctors
+  age: number;
 }

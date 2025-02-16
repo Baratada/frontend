@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';  // import AuthService
+import { AuthService } from '../../services/authService/auth.service';  // import AuthService
 import { Router } from '@angular/router'; // to navigate after logout
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';

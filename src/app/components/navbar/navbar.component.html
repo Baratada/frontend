@@ -1,0 +1,25 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <a routerLink="/"><img src="logo.png" alt="Logo" id="logo" /></a>
+    <ul class="navbar-links">
+      <li *ngIf="loginState && userRole === 'admin'">
+        <a routerLink="/admin-dashboard">Admin dashboard</a>
+      </li>
+      <li><a routerLink="/">Home</a></li>
+      <li *ngIf="loginState">
+        <a [routerLink]="['/profile', userId]">Profile</a>
+      </li>
+      <li *ngIf="loginState && userRole === 'doctor'">
+        <a routerLink="/patients">Patients</a>
+      </li>
+      <li><a routerLink="/doctors">Doctors</a></li>
+      <li *ngIf="loginState">
+        <a routerLink="/appointments">Appointments</a>
+      </li>
+      <li><a routerLink="/contact">Contact</a></li>
+      <li *ngIf="!loginState"><a routerLink="/login">Login</a></li>
+      <li *ngIf="loginState"><a (click)="logout()">Logout</a></li>
+      <li *ngIf="!loginState"><a routerLink="/register">Register</a></li>
+    </ul>
+  </div>
+</nav>

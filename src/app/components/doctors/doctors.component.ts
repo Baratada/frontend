@@ -1,6 +1,6 @@
 // src/app/components/users/users.component.ts
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../../services/userService/user.service';
 import { Observable } from 'rxjs';
 import { User } from '../../models/user.model';  // Ensure the correct import path
 import { CommonModule } from '@angular/common';  // Import CommonModule for async pipe

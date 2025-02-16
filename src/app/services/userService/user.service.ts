@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from '../models/user.model';  // Adjust import path if necessary
+import { User } from '../../models/user.model';  // Adjust import path if necessary
 
 @Injectable({
   providedIn: 'root',
@@ -43,6 +43,12 @@ export class UserService {
     return this.http.delete(`${this.adminApiUrl}/delete-user/${userId}`, {
       headers: this.getAuthHeaders(),
     });  // Delete user by ID
+  }
+
+  updateAge(userId: number, age: number): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/update-age/${userId}/${age}`, {}, {
+      headers: this.getAuthHeaders(),
+    });  // Update user age
   }
 
   // Helper function to get Authorization headers

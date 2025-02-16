@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService } from '../../services/user.service';  // Import the UserService
+import { UserService } from '../../services/userService/user.service';  // Import the UserService
 import { User } from '../../models/user.model';  // Import the User model
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -37,6 +37,9 @@ export class AdminDashboardComponent implements OnInit {
 
   updateRole(userId: number, role: string): void {
     console.log(`Updating role for userId: ${userId} to role: ${role}`);  // Add logging
+    if (role === 'doctor') {
+      this.updateSpecialization(userId, 'None');
+    }
     this.userService.updateRole(userId, role).subscribe(
       (response) => {
         alert(response.message);

@@ -1,7 +1,43 @@
 <div *ngIf="user; else loading">
   <h1>{{ user!.username }}'s Profile</h1>
   <p><strong>Role:</strong> {{ user!.role }}</p>
-  <p><strong>Specialization:</strong> {{ user!.specialization || "N/A" }}</p>
+  <p *ngIf="user!.role === 'doctor'">
+    <strong>Specialization:</strong> {{ user!.specialization || "N/A" }}
+  </p>
+
+  <!-- Allow appointment requests only if the user is a doctor -->
+  <button
+    *ngIf="loginState === true && user!.role === 'doctor'"
+    (click)="requestAppointment()"
+  >
+    Request appointment
+  </button>
+
+  <!-- Show editable fields only if the user is a normal user -->
+  <table *ngIf="user!.role === 'user'">
+    <thead>
+      <tr>
+        <th>Age</th>
+        <th>Problem</th>
+        <th>Specialization</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <input
+            type="number"
+            min="0"
+            max="120"
+            [(ngModel)]="user!.age"
+            (input)="updateAge()"
+            *ngIf="isProfileOwner()"
+          />
+          <label *ngIf="!isProfileOwner()">{{ user.age }}</label>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <ng-template #loading>
