@@ -1,11 +1,49 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AppointmentService } from '../../services/appointmentService/appointment.service';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-appointments',
-  imports: [],
   templateUrl: './appointments.component.html',
-  styleUrl: './appointments.component.scss'
+  styleUrls: ['./appointments.component.css'],
+  imports: [FormsModule, CommonModule],
 })
-export class AppointmentsComponent {
+export class AppointmentsComponent implements OnInit {
+  appointments: any[] = [];
+  loading = true;
+  userId: number = 0;
+  constructor(private appointmentService: AppointmentService) {}
 
+  ngOnInit(): void {
+    this.userId = Number(localStorage.getItem('user_id')) || 0;
+    this.fetchAppointments();
+  }
+
+  fetchAppointments(): void {
+    this.appointmentService.getAppointments().subscribe(
+      (data) => {
+        this.appointments = data;
+        this.loading = false;
+      },
+      (error) => {
+        console.error('Error fetching appointments:', error);
+        this.loading = false;
+      }
+    );
+  }
+  
+  acceptAppointment(id: number): void {
+    this.appointmentService.updateAppointment(id, 'confirmed').subscribe(() => {
+      this.appointments = this.appointments.filter((appt) => appt.id !== id);
+    });
+    this.fetchAppointments();
+  }
+  deleteAppointment(id: number): void {
+    if (confirm('Are you sure you want to delete this appointment?')) {
+      this.appointmentService.deleteAppointment(id).subscribe(() => {
+        this.appointments = this.appointments.filter((appt) => appt.id !== id);
+      });
+    }
+  }
 }

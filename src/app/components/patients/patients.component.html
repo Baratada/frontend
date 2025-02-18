@@ -1,1 +1,24 @@
-<p>patients works!</p>
+<h2>Patients</h2>
+
+<p *ngIf="loading">Loading patients...</p>
+
+<table *ngIf="users.length > 0">
+  <thead>
+    <tr>
+      <th>Patient ID</th>
+      <th>Name</th>
+      <th>Age</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users" [hidden]="user.role !== 'user'">
+      <td>{{ user.id }}</td>
+      <td>
+        <a [routerLink]="['/profile', user.id]">{{ user.username }}</a>
+      </td>
+      <td>{{ user.age }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<p *ngIf="users.length === 0 && !loading">No patients found.</p>

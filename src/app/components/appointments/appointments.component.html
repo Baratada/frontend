@@ -1,1 +1,42 @@
-<p>appointments works!</p>
+<h2>Appointments</h2>
+
+<p *ngIf="loading">Loading appointments...</p>
+
+<table *ngIf="appointments.length > 0">
+  <thead>
+    <tr>
+      <th>Patient ID</th>
+      <th>Doctor ID</th>
+      <th>Date</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="let appointment of appointments"
+      [hidden]="
+        !(appointment.patient_id === userId || appointment.doctor_id === userId)
+      "
+    >
+      <td>{{ appointment.patient_id }}</td>
+      <td>{{ appointment.doctor_id }}</td>
+      <td>{{ appointment.appointment_date | date : "dd/MM/yyyy" }}</td>
+      <td>{{ appointment.status }}</td>
+      <td>
+        <button (click)="deleteAppointment(appointment.id)">Delete</button>
+      </td>
+      <td>
+        <button
+          *ngIf="
+            appointment.status === 'pending' && userId === appointment.doctor_id
+          "
+          (click)="acceptAppointment(appointment.id)"
+        >
+          Accept
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p *ngIf="appointments.length === 0 && !loading">No appointments found.</p>

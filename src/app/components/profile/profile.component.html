@@ -6,9 +6,16 @@
   </p>
 
   <!-- Allow appointment requests only if the user is a doctor -->
+  <input
+    type="date"
+    [(ngModel)]="appointmentDate"
+    *ngIf="user!.role === 'doctor'"
+    [min]="minDate"
+    placeholder="Choose Appointment Date"
+  />
   <button
     *ngIf="loginState === true && user!.role === 'doctor'"
-    (click)="requestAppointment()"
+    (click)="bookAppointment()"
   >
     Request appointment
   </button>
