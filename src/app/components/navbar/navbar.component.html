@@ -12,6 +12,9 @@
       <li *ngIf="loginState && userRole === 'doctor'">
         <a routerLink="/patients">Patients</a>
       </li>
+      <li *ngIf="loginState && userRole === 'doctor'">
+        <a routerLink="/drugs">Drugs</a>
+      </li>
       <li><a routerLink="/doctors">Doctors</a></li>
       <li *ngIf="loginState">
         <a routerLink="/appointments">Appointments</a>

@@ -1,0 +1,26 @@
+<div *ngIf="drugs$ | async as drugs; else loading">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Prescription</th>
+          <th>Stock</th>
+          <th>Info</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let drug of drugs">
+          <td><a [routerLink]="['/drug', drug.id]">{{ drug.name }}</a></td>
+          <td>{{ drug.prescription ? 'Yes' : 'No' }}</td>
+          <td>{{ drug.stock }}</td>
+          <td>{{ drug.info }}</td>
+          <td>&euro;{{ drug.price }}</td>
+        </tr>
+      </tbody>
+    </table>
+</div>
+
+<ng-template #loading>
+    <p>Loading drugs...</p>
+</ng-template>

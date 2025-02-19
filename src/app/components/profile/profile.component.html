@@ -26,6 +26,7 @@
       <tr>
         <th>Age</th>
         <th>Drugs</th>
+        <th>Email</th>
       </tr>
     </thead>
     <tbody>
@@ -43,8 +44,11 @@
         </td>
         <td>
           <ul>
-            <li *ngFor="let drug of user.drugs">{{ drug.name }}</li>
+            <li *ngFor="let drug of user.drugs"><a [routerLink]="['/drug', drug.id]">{{ drug.name }}</a></li>
           </ul>
+        </td>
+        <td>
+          {{user!.email}}
         </td>
       </tr>
 

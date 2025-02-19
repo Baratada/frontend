@@ -1,8 +1,7 @@
 // profile.component.ts
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { UserService } from '../../services/userService/user.service';  // Adjust path as needed
-import { DrugService } from '../../services/drugSerivce/drugs.service';
 import { User } from '../../../app/models/user.model';  // Adjust path as needed
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/authService/auth.service';
@@ -13,7 +12,7 @@ import { AppointmentService } from '../../services/appointmentService/appointmen
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
 })
 export class ProfileComponent implements OnInit {
   user: User | null = null;
@@ -28,7 +27,6 @@ export class ProfileComponent implements OnInit {
   constructor(
     private userService: UserService,
     private authService: AuthService,
-    private drugService: DrugService,
     private route: ActivatedRoute,
     private appointmentService: AppointmentService
   ) {}

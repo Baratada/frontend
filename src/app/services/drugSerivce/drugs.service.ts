@@ -19,12 +19,15 @@ export class DrugService {
   }
 
   // Get a specific drug by ID
-  getDrugById(id: number): Observable<Drug> {
+  getDrugById(id: string): Observable<Drug> {
     return this.http.get<Drug>(`${this.apiUrl}/${id}`, {
       headers: this.getAuthHeaders()
     });
   }
 
+  updateDrugStock(id: string, stock: number): void {
+    this.http.put(`${this.apiUrl}/update/${id}`, {stock}, {headers: this.getAuthHeaders()})
+  }
   // Helper function to get Authorization headers
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('auth_token');

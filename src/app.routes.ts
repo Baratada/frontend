@@ -13,6 +13,7 @@ import { AdminDashboardComponent } from './app/components/admin-dashboard/admin-
 import { DrugComponent } from './app/drug/drug.component';
 
 import { authGuard } from './app/guards/auth.guard';
+import { DrugsComponent } from './app/drugs/drugs.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -25,5 +26,6 @@ export const routes: Routes = [
     { path: 'profile/:id', component: ProfileComponent },
     { path: 'admin-dashboard', component: AdminDashboardComponent },
     { path: 'drug/:id', component: DrugComponent },
+    { path: 'drugs', component: DrugsComponent},
     { path: '**', redirectTo: '' }
 ];

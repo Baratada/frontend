@@ -5,6 +5,7 @@ export interface User {
   password_hash: string;
   role: string;  // Can be 'user', 'doctor', or 'admin'
   specialization?: string;  // Only applies to doctors
+  email: string;
   age: number;
   drugs: Drug[];  // Array of drugs associated with the user
 }
@@ -14,4 +15,6 @@ export interface Drug {
   name: string;
   prescription: boolean;
   stock: number;
+  info: string;
+  price: number;
 }
