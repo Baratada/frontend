@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { AppointmentService } from '../../services/appointmentService/appointment.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { User } from '../../models/user.model';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-appointments',
   templateUrl: './appointments.component.html',
   styleUrls: ['./appointments.component.css'],
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, RouterModule],
 })
 export class AppointmentsComponent implements OnInit {
   appointments: any[] = [];
@@ -22,11 +24,11 @@ export class AppointmentsComponent implements OnInit {
 
   fetchAppointments(): void {
     this.appointmentService.getAppointments().subscribe(
-      (data) => {
+      (data: any[]) => {
         this.appointments = data;
         this.loading = false;
       },
-      (error) => {
+      (error: any) => {
         console.error('Error fetching appointments:', error);
         this.loading = false;
       }

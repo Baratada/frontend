@@ -5,8 +5,7 @@
 <table *ngIf="appointments.length > 0">
   <thead>
     <tr>
-      <th>Patient ID</th>
-      <th>Doctor ID</th>
+      <th>Patient</th>
       <th>Date</th>
       <th>Status</th>
     </tr>
@@ -18,8 +17,7 @@
         !(appointment.patient_id === userId || appointment.doctor_id === userId)
       "
     >
-      <td>{{ appointment.patient_id }}</td>
-      <td>{{ appointment.doctor_id }}</td>
+      <td><a [routerLink]="['/profile', userId]">{{ appointment.username }}</a></td>
       <td>{{ appointment.appointment_date | date : "dd/MM/yyyy" }}</td>
       <td>{{ appointment.status }}</td>
       <td>
