@@ -10,6 +10,7 @@ import { AppointmentsComponent } from './app/components/appointments/appointment
 import { RegisterComponent } from './app/components/register/register.component';
 import { ProfileComponent } from './app/components/profile/profile.component';
 import { AdminDashboardComponent } from './app/components/admin-dashboard/admin-dashboard.component';
+import { DrugComponent } from './app/drug/drug.component';
 
 import { authGuard } from './app/guards/auth.guard';
 
@@ -23,5 +24,6 @@ export const routes: Routes = [
     { path: 'register', component: RegisterComponent },
     { path: 'profile/:id', component: ProfileComponent },
     { path: 'admin-dashboard', component: AdminDashboardComponent },
+    { path: 'drug/:id', component: DrugComponent },
     { path: '**', redirectTo: '' }
 ];

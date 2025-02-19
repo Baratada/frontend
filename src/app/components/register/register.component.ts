@@ -11,13 +11,14 @@ import { FormsModule } from '@angular/forms';  // Import FormsModule
   imports: [FormsModule]
 })
 export class RegisterComponent {
-  username = '';
-  password = '';
+  username: string = '';
+  email: string = '';
+  password: string = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
   register(): void {
-    this.authService.register(this.username, this.password).subscribe(
+    this.authService.register(this.username, this.password, this.email).subscribe(
       (response) => {
         console.log('User registered successfully', response);
         this.router.navigate(['/login']);  // Redirect to login page after registration

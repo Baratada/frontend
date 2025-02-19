@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/userService/user.service';  // Adjust path as needed
+import { DrugService } from '../../services/drugSerivce/drugs.service';
 import { User } from '../../../app/models/user.model';  // Adjust path as needed
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/authService/auth.service';
@@ -19,8 +20,7 @@ export class ProfileComponent implements OnInit {
   loginState: boolean = false;
   profileUserId: number = 0; // Extracted from the URL
   currentUser:number =  localStorage.getItem('user_id') ? this.profileUserId = +localStorage.getItem('user_id')! : this.profileUserId = -1;
-   // Variable for storing the selected date
-   appointmentDate: string = '';
+  appointmentDate: string = '';
 
    // Set minimum date (today)
    minDate: string = new Date().toISOString().split('T')[0];
@@ -28,6 +28,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     private userService: UserService,
     private authService: AuthService,
+    private drugService: DrugService,
     private route: ActivatedRoute,
     private appointmentService: AppointmentService
   ) {}
@@ -49,7 +50,6 @@ export class ProfileComponent implements OnInit {
         }
       );
     }
-
   }
 
   updateAge() {

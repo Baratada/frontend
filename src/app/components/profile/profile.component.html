@@ -25,8 +25,7 @@
     <thead>
       <tr>
         <th>Age</th>
-        <th>Problem</th>
-        <th>Specialization</th>
+        <th>Drugs</th>
       </tr>
     </thead>
     <tbody>
@@ -42,7 +41,14 @@
           />
           <label *ngIf="!isProfileOwner()">{{ user.age }}</label>
         </td>
+        <td>
+          <ul>
+            <li *ngFor="let drug of user.drugs">{{ drug.name }}</li>
+          </ul>
+        </td>
       </tr>
+
+
     </tbody>
   </table>
 </div>

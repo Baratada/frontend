@@ -29,13 +29,13 @@ export class UserService {
 
   // Update User Role
   updateRole(userId: number, role: string): Observable<any> {
-    return this.http.patch(`${this.adminApiUrl}/update-role/${userId}/${role}`, {}, {
+    return this.http.patch(`${this.adminApiUrl}/update/${userId}`, {role}, {
       headers: this.getAuthHeaders(),
     }); // Update user role
   }
 
   updateSpecialization(userId: number, specialization: string): Observable<any> {
-    return this.http.patch(`${this.adminApiUrl}/update-specialization/${userId}/${specialization}`, {}, {headers: this.getAuthHeaders()});
+    return this.http.patch(`${this.adminApiUrl}/update/${userId}`, {specialization}, {headers: this.getAuthHeaders()});
   }
 
   // Delete User
@@ -46,7 +46,7 @@ export class UserService {
   }
 
   updateAge(userId: number, age: number): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/update-age/${userId}/${age}`, {}, {
+    return this.http.patch(`${this.apiUrl}/update/${userId}`, {age}, {
       headers: this.getAuthHeaders(),
     });  // Update user age
   }
