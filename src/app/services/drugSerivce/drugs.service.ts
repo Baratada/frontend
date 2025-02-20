@@ -11,12 +11,15 @@ export class DrugService {
 
   constructor(private http: HttpClient) { }
 
-  // Get all drugs
-  getDrugs(): Observable<Drug[]> {
+  // Get all drugs with optional search
+  getDrugs(searchTerm?: string): Observable<Drug[]> {
+    const params = searchTerm ? { params: { search: searchTerm } } : {};
     return this.http.get<Drug[]>(this.apiUrl, {
-      headers: this.getAuthHeaders()
+      headers: this.getAuthHeaders(),
+      ...params
     });
   }
+
 
   // Get a specific drug by ID
   getDrugById(id: string): Observable<Drug> {
@@ -25,9 +28,13 @@ export class DrugService {
     });
   }
 
-  updateDrugStock(id: string, stock: number): void {
-    this.http.put(`${this.apiUrl}/update/${id}`, {stock}, {headers: this.getAuthHeaders()})
+  // Update drug stock
+  updateDrugStock(id: string, stock: number): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/update/${id}`, {stock}, {
+      headers: this.getAuthHeaders()
+    });
   }
+
   // Helper function to get Authorization headers
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('auth_token');

@@ -1,19 +1,17 @@
 <div *ngIf="drug; else loading">
-    <h1>{{ drug!.name }}</h1>
-    <p><strong>Stock:</strong> {{ drug!.stock }}</p>
-    <p>
-      <strong>Prescription:</strong> {{ drug!.prescription }}
-    </p>
-    <p>
-        <strong>Price:</strong> &euro; {{ drug!.price }}
-      </p>
-    <p>{{drug.info}}</p>
-    <br/>
-    <input type="number" [(ngModel)]="amount" value = 0/> <!--check if user is admin before letting them see this-->
-    <button (click)="order()">Order</button>
-  </div>
+  <h1>{{ drug!.name }}</h1>
+  <p><strong>Stock:</strong> {{ drug!.stock }}</p>
+  <p><strong>Prescription:</strong> {{ drug!.prescription }}</p>
+  <p><strong>Price:</strong> &euro; {{ drug!.price }}</p>
+  <p>{{ drug.info }}</p>
+  <br/>
   
-  <ng-template #loading>
-    <p>Loading...</p>
-  </ng-template>
+  <!-- Use the async pipe to subscribe to user$ and check if the user is an admin -->
+  <input *ngIf="(user$ | async)?.role === 'admin'" type="number" [(ngModel)]="amount" value="0" min="0" max="1000"/>
   
+  <button *ngIf="(user$ | async)?.role === 'admin'" (click)="order()">Order</button>
+</div>
+
+<ng-template #loading>
+  <p>Loading...</p>
+</ng-template>
