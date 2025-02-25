@@ -3,7 +3,11 @@
   <input type="text" [(ngModel)]="searchTerm" (change)="searchDrugs()" placeholder="Search drugs by name...">
 </div>
 
-<div *ngIf="drugs$ | async as drugs; else loading">
+<div *ngIf="drugs$ | async as drugs; else loading" class="drugs-table-container">
+  <br/>
+  <button (click)="addDrug()">Add Drug</button>
+  <br/>
+
     <table>
       <thead>
         <tr>
@@ -21,10 +25,12 @@
           <td>{{ drug.stock }}</td>
           <td>{{ drug.info }}</td>
           <td>&euro;{{ drug.price }}</td>
+          <td *ngIf="userRole === 'admin'"><button (click)="deleteDrug(drug.id!)">Delete</button></td>
         </tr>
       </tbody>
     </table>
 </div>
+
 
 <ng-template #loading>
     <p>Loading drugs...</p>

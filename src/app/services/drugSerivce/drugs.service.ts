@@ -35,6 +35,17 @@ export class DrugService {
     });
   }
 
+  addDrug(drug: Drug): Observable<Drug> {
+    return this.http.post<Drug>(`${this.apiUrl}`, drug, {
+      headers: this.getAuthHeaders()
+    });
+  }
+  deleteDrug(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/delete/${id}`, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
   // Helper function to get Authorization headers
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('auth_token');

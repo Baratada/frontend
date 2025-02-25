@@ -8,3 +8,8 @@ input[type="number"] {
     -moz-appearance: textfield;
     appearance: textfield;
   }
+
+  .profile-table-container {
+    max-height: 400px; // Set a maximum height for the profile table
+    overflow: auto; // Allow scrolling if content exceeds max height
+  }

@@ -9,10 +9,10 @@
       <li *ngIf="loginState">
         <a [routerLink]="['/profile', userId]">Profile</a>
       </li>
-      <li *ngIf="loginState && userRole === 'doctor'">
+      <li *ngIf="loginState && !(userRole === 'user')">
         <a routerLink="/patients">Patients</a>
       </li>
-      <li *ngIf="loginState && userRole === 'doctor'">
+      <li *ngIf="loginState && !(userRole === 'user')">
         <a routerLink="/drugs">Drugs</a>
       </li>
       <li><a routerLink="/doctors">Doctors</a></li>

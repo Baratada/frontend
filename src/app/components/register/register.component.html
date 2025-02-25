@@ -14,13 +14,14 @@
       />
     </div>
     <div class="form-group">
-      <label for="email">email:</label>
+      <label for="email">Email:</label>
       <input
         type="text"
         id="email"
         [(ngModel)]="email"
         name="email"
         class="form-control"
+        placeholder="Enter your email"
         required
       />
     </div>
@@ -36,7 +37,18 @@
         class="form-control"
       />
     </div>
-
+    <div class="form-group">
+      <label for="birth date">Birth date:</label>
+      <input
+        type="date"
+        id="birth-date"
+        [(ngModel)]="birth_date"
+        name="birth-date"
+        class="form-control"
+        [max]="maxDate"
+        required
+      />
+    </div>
     <button
       type="submit"
       class="submit-btn"

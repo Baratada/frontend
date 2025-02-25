@@ -1,27 +1,30 @@
 <div *ngIf="user; else loading">
-  <h1>{{ user!.username }}'s Profile</h1>
-  <p><strong>Role:</strong> {{ user!.role }}</p>
-  <p *ngIf="user!.role === 'doctor'">
-    <strong>Specialization:</strong> {{ user!.specialization || "N/A" }}
+  <h1>{{ user.username }}'s Profile</h1>
+  <p><strong>Role:</strong> {{ user.role }}</p>
+  
+  <p *ngIf="user.role === 'doctor'">
+    <strong>Specialization:</strong> {{ user.specialization || "N/A" }}
   </p>
 
   <!-- Allow appointment requests only if the user is a doctor -->
   <input
     type="date"
     [(ngModel)]="appointmentDate"
-    *ngIf="user!.role === 'doctor'"
+    *ngIf="user.role === 'doctor' && currentUser.role === 'user' && loginState" 
     [min]="minDate"
     placeholder="Choose Appointment Date"
   />
   <button
-    *ngIf="loginState === true && user!.role === 'doctor'"
+    *ngIf="loginState && user.role === 'doctor' && currentUser.role === 'user'"
     (click)="bookAppointment()"
   >
     Request appointment
   </button>
 
   <!-- Show editable fields only if the user is a normal user -->
-  <table *ngIf="user!.role === 'user'">
+<div class="profile-table-container">
+  <table *ngIf="user.role === 'user'">
+
     <thead>
       <tr>
         <th>Age</th>
@@ -32,29 +35,31 @@
     <tbody>
       <tr>
         <td>
-          <input
-            type="number"
-            min="0"
-            max="120"
-            [(ngModel)]="user!.age"
-            (input)="updateAge()"
-            *ngIf="isProfileOwner()"
-          />
-          <label *ngIf="!isProfileOwner()">{{ user.age }}</label>
+          <label>{{ user.birth_date }}</label><br/>
+          <label>{{ user.age }}</label>
+
         </td>
         <td>
           <ul>
-            <li *ngFor="let drug of user.drugs"><a [routerLink]="['/drug', drug.id]">{{ drug.name }}</a></li>
+            <li *ngFor="let drug of user.drugs">
+              <a [routerLink]="['/drug', drug.id]">{{ drug.name }}</a>
+            </li>
           </ul>
+
+          <!-- Only show the drug assignment for doctors -->
+          <select *ngIf="isUserDoctor()" name="addDrug" id="addDrug" [(ngModel)]="newDrug">
+            <option *ngFor="let drug of drugs$ | async" [ngValue]="drug">{{ drug.name }}</option>
+          </select>
+          <button *ngIf="isUserDoctor()" (click)="assignDrug()">Assign drug</button>
         </td>
         <td>
-          {{user!.email}}
+          {{ user.email }}
         </td>
       </tr>
-
-
     </tbody>
   </table>
+</div>
+
 </div>
 
 <ng-template #loading>

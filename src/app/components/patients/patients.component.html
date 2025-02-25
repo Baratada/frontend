@@ -2,23 +2,25 @@
 
 <p *ngIf="loading">Loading patients...</p>
 
-<table *ngIf="users.length > 0">
-  <thead>
-    <tr>
-      <th>Patient ID</th>
-      <th>Name</th>
-      <th>Age</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let user of users" [hidden]="user.role !== 'user'">
-      <td>{{ user.id }}</td>
-      <td>
-        <a [routerLink]="['/profile', user.id]">{{ user.username }}</a>
-      </td>
-      <td>{{ user.age }}</td>
-    </tr>
-  </tbody>
-</table>
+<div class="patients-table-container">
+  <table *ngIf="users.length > 0">
+    <thead>
+      <tr>
+        <th>Patient ID</th>
+        <th>Name</th>
+        <th>Age</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users" [hidden]="user.role !== 'user'">
+        <td>{{ user.id }}</td>
+        <td>
+          <a [routerLink]="['/profile', user.id]">{{ user.username }}</a>
+        </td>
+        <td>{{ user.age }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 <p *ngIf="users.length === 0 && !loading">No patients found.</p>

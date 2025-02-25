@@ -1,0 +1,4 @@
+.drugs-table-container {
+  max-height: 400px; // Set a maximum height for the drugs table
+  overflow: auto; // Allow scrolling if content exceeds max height
+}

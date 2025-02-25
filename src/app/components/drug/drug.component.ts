@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DrugService } from '../services/drugSerivce/drugs.service';
-import { Drug } from '../models/user.model';
-import { User } from '../models/user.model';
+import { DrugService } from '../../services/drugSerivce/drugs.service';
+import { Drug } from '../../models/user.model';
+import { User } from '../../models/user.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { UserService } from '../services/userService/user.service';
+import { UserService } from '../../services/userService/user.service';
 
 
 

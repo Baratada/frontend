@@ -1,38 +1,42 @@
-  /* footer.component.scss */
-  .footer {
-    background-color: #333;
-    color: white;
-    padding: 0 0;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-  }
-  
-  .footer .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-  }
-  
-  .footer-content {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
-  
-  .footer-links {
-    display: flex;
-    gap: 15px;
-  }
-  
-  .footer-links a {
-    color: white;
-    text-decoration: none;
-    transition: color 0.3s;
-  }
-  
-  .footer-links a:hover {
-    color: #007bff;
-  }
-  
+/* footer.component.scss */
+body {
+  min-height: 100vh; /* Ensure body takes full height */
+  overflow: auto; /* Allow scrolling */
+}
+
+.footer {
+  background-color: #333;
+  position: fixed; /* Change to fixed to stick to the bottom */
+  bottom: 0; /* Stick to the bottom */
+  width: 100%;
+  color: white;
+  padding: 10px 0; /* Add some padding */
+}
+
+.footer .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.footer-links {
+  display: flex;
+  gap: 15px;
+}
+
+.footer-links a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: #007bff;
+}

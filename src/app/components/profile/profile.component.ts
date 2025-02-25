@@ -2,11 +2,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { UserService } from '../../services/userService/user.service';  // Adjust path as needed
-import { User } from '../../../app/models/user.model';  // Adjust path as needed
+import { Drug, User } from '../../../app/models/user.model';  // Adjust path as needed
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/authService/auth.service';
 import { FormsModule } from '@angular/forms';
 import { AppointmentService } from '../../services/appointmentService/appointment.service';
+import { DrugService } from '../../services/drugSerivce/drugs.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -15,17 +17,22 @@ import { AppointmentService } from '../../services/appointmentService/appointmen
   imports: [CommonModule, FormsModule, RouterModule],
 })
 export class ProfileComponent implements OnInit {
-  user: User | null = null;
+  user!: User;
+  currentUser!: User;
   loginState: boolean = false;
   profileUserId: number = 0; // Extracted from the URL
-  currentUser:number =  localStorage.getItem('user_id') ? this.profileUserId = +localStorage.getItem('user_id')! : this.profileUserId = -1;
   appointmentDate: string = '';
+  currentUserId: number =  localStorage.getItem('user_id') ? this.profileUserId = +localStorage.getItem('user_id')! : this.profileUserId = -1;
+
+  drugs$!: Observable<Drug[]>;
+  newDrug!: Drug;
 
    // Set minimum date (today)
-   minDate: string = new Date().toISOString().split('T')[0];
+  minDate: string = new Date().toISOString().split('T')[0];
 
   constructor(
     private userService: UserService,
+    private drugService: DrugService,
     private authService: AuthService,
     private route: ActivatedRoute,
     private appointmentService: AppointmentService
@@ -48,25 +55,30 @@ export class ProfileComponent implements OnInit {
         }
       );
     }
-  }
 
-  updateAge() {
-    if (this.user && this.user.age >= 0 && this.user.age <= 120) {
-      this.userService.updateAge(this.user.id, this.user.age).subscribe(
-        (response:any) => {
-          console.log('Age updated successfully', response);
+    if (userId) {
+      this.userService.getUserById(String(this.currentUserId)).subscribe(
+        (user) => {
+          console.log("User data:", user); // Debugging log
+          this.currentUser = user;
         },
-        (error:any) => {
-          console.error('Error updating age', error);
+        (error) => {
+          console.error('Error fetching user', error);
         }
       );
-    } else {
-      console.error('Invalid age');
     }
+
+    this.drugs$ = this.drugService.getDrugs();
   }
+
+
 
   isProfileOwner(): boolean {
     return this.user?.id === this.profileUserId; // Only allow edits if IDs match
+  }
+
+  isUserDoctor(): boolean{
+    return this.currentUser?.role == 'doctor';
   }
 
   bookAppointment(): void {
@@ -84,7 +96,7 @@ export class ProfileComponent implements OnInit {
     const isoDate = new Date(this.appointmentDate).toISOString();
     
     const appointment = {
-      patient_id: this.currentUser,
+      patient_id: this.currentUserId,
       doctor_id: this.user.id, // The profile being viewed (doctor)
       appointment_date: isoDate, // Use the ISO formatted date
     };
@@ -99,6 +111,15 @@ export class ProfileComponent implements OnInit {
         console.error('Error booking appointment', error);
       }
     );
+  }
+
+  assignDrug() {
+    this.userService.updateDrug(this.user.id, [this.newDrug.id!, this.newDrug.name]).subscribe(response => {
+        console.log("Drug assignment response:", response);
+        location.reload();
+    }, error => {
+        console.error("Error updating stock:", error);
+    });
   }
   
 

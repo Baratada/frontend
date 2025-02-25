@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from '../../models/user.model';  // Adjust import path if necessary
+import { User } from '../../models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,54 +10,57 @@ export class UserService {
   private apiUrl = 'http://localhost:5000/api/users'; 
   private adminApiUrl = 'http://localhost:5000/api/admin'; 
 
-
   constructor(private http: HttpClient) {}
 
-  // Get Users
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl, {
       headers: this.getAuthHeaders(),
-    });  // Get all users
+    });
   }
 
-  // Get User by ID
   getUserById(id: string): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/${id}`, {
       headers: this.getAuthHeaders(),
-    });  // API call to get a single user by ID
+    });
   }
 
-  // Update User Role
   updateRole(userId: number, role: string): Observable<any> {
-    return this.http.patch(`${this.adminApiUrl}/update/${userId}`, {role}, {
+    return this.http.patch(`${this.apiUrl}/update/${userId}`, {role}, {
       headers: this.getAuthHeaders(),
-    }); // Update user role
+    });
+  }
+
+  updateDrug(userId: number, drugs: (string | number)[]): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/update/${userId}`, {drug: drugs}, {
+        headers: this.getAuthHeaders(),
+    });
   }
 
   updateSpecialization(userId: number, specialization: string): Observable<any> {
-    return this.http.patch(`${this.adminApiUrl}/update/${userId}`, {specialization}, {headers: this.getAuthHeaders()});
+    return this.http.patch(`${this.apiUrl}/update/${userId}`, {specialization}, {
+      headers: this.getAuthHeaders(),
+    });
   }
 
-  // Delete User
   deleteUser(userId: number): Observable<any> {
     return this.http.delete(`${this.adminApiUrl}/delete-user/${userId}`, {
       headers: this.getAuthHeaders(),
-    });  // Delete user by ID
+    });
   }
 
   updateAge(userId: number, age: number): Observable<any> {
     return this.http.patch(`${this.apiUrl}/update/${userId}`, {age}, {
       headers: this.getAuthHeaders(),
-    });  // Update user age
+    });
   }
 
-  // Helper function to get Authorization headers
+
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('auth_token');  // Retrieve 'access_token' from local storage
+    const token = localStorage.getItem('auth_token');
     console.log("Token being sent:", token);
 
     return new HttpHeaders({
-      'Authorization': token ? `Bearer ${token}` : '',  // Attach token if it exists
+      'Authorization': token ? `Bearer ${token}` : '',
     });
   }
 }

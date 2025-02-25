@@ -10,22 +10,24 @@ import { AppointmentsComponent } from './app/components/appointments/appointment
 import { RegisterComponent } from './app/components/register/register.component';
 import { ProfileComponent } from './app/components/profile/profile.component';
 import { AdminDashboardComponent } from './app/components/admin-dashboard/admin-dashboard.component';
-import { DrugComponent } from './app/drug/drug.component';
+import { DrugComponent } from './app/components/drug/drug.component';
+import { DrugsComponent } from './app/components/drugs/drugs.component';
 
 import { authGuard } from './app/guards/auth.guard';
-import { DrugsComponent } from './app/drugs/drugs.component';
+import { adminGuard } from './app/guards/admin.guard';
+import { doctorGuard } from './app/guards/doctor.guard';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
-    { path: 'doctors', component: DoctorsComponent},
+    { path: 'doctors', component: DoctorsComponent },
     { path: 'contact', component: ContactComponent },
     { path: 'login', component: LoginComponent},
     { path: 'patients', component: PatientsComponent, canActivate: [authGuard] },
     { path: 'appointments', component: AppointmentsComponent, canActivate: [authGuard] },
     { path: 'register', component: RegisterComponent },
-    { path: 'profile/:id', component: ProfileComponent },
-    { path: 'admin-dashboard', component: AdminDashboardComponent },
+    { path: 'profile/:id', component: ProfileComponent, canActivate: [authGuard] },
+    { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [adminGuard] },
     { path: 'drug/:id', component: DrugComponent },
-    { path: 'drugs', component: DrugsComponent},
+    { path: 'drugs', component: DrugsComponent },
     { path: '**', redirectTo: '' }
 ];

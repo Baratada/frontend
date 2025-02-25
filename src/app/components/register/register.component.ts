@@ -14,11 +14,14 @@ export class RegisterComponent {
   username: string = '';
   email: string = '';
   password: string = '';
+  birth_date: Date = new Date();
+  maxDate: string = new Date().toISOString().split('T')[0];
 
+  
   constructor(private authService: AuthService, private router: Router) {}
-
+  
   register(): void {
-    this.authService.register(this.username, this.password, this.email).subscribe(
+    this.authService.register(this.username, this.password, this.email, this.birth_date).subscribe(
       (response) => {
         console.log('User registered successfully', response);
         this.router.navigate(['/login']);  // Redirect to login page after registration
