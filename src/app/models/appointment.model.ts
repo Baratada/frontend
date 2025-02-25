@@ -7,5 +7,7 @@ export interface Appointment {
     status?: string;
     created_at?: string;
     updated_at?: string;
+    doctor_username?: string;
+
   }
   

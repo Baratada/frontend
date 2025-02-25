@@ -1,65 +1,114 @@
 <div *ngIf="user; else loading">
-  <h1>{{ user.username }}'s Profile</h1>
-  <p><strong>Role:</strong> {{ user.role }}</p>
-  
-  <p *ngIf="user.role === 'doctor'">
-    <strong>Specialization:</strong> {{ user.specialization || "N/A" }}
-  </p>
+  <form (ngSubmit)="bookAppointment()" #appointmentForm="ngForm">
+    <div *ngIf="user; else loading">
+      <h1>{{ user.username }}'s Profile</h1>
+      <p><strong>Role:</strong> {{ user.role }}</p>
 
-  <!-- Allow appointment requests only if the user is a doctor -->
-  <input
-    type="date"
-    [(ngModel)]="appointmentDate"
-    *ngIf="user.role === 'doctor' && currentUser.role === 'user' && loginState" 
-    [min]="minDate"
-    placeholder="Choose Appointment Date"
-  />
-  <button
-    *ngIf="loginState && user.role === 'doctor' && currentUser.role === 'user'"
-    (click)="bookAppointment()"
+      <p *ngIf="user.role === 'doctor'">
+        <strong>Specialization:</strong> {{ user.specialization || "N/A" }}
+      </p>
+
+      <div
+        *ngIf="
+          user.role === 'doctor' && currentUser.role === 'user' && loginState
+        "
+      >
+        <label for="appointmentDate">Appointment Date:</label>
+        <input
+          id="appointmentDate"
+          type="date"
+          [(ngModel)]="appointmentDate"
+          name="appointmentDate"
+          [min]="minDate"
+          placeholder="Choose Appointment Date"
+          required
+        />
+      </div>
+
+      <button
+        type="submit"
+        *ngIf="
+          loginState && user.role === 'doctor' && currentUser.role === 'user'
+        "
+        [disabled]="!appointmentForm.valid"
+      >
+        Request appointment
+      </button>
+    </div>
+  </form>
+
+  <div class="profile-table-container">
+    <table *ngIf="user.role === 'user'">
+      <thead>
+        <tr>
+          <th>Age</th>
+          <th>Drugs</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <label>{{ user.birth_date }}</label>
+            <br />
+            <label>Age: {{ user.age }}</label>
+          </td>
+          <td>
+            <ul>
+              <li *ngFor="let drug of user.drugs">
+                <a [routerLink]="['/drug', drug.id]">{{ drug.name }}</a>
+              </li>
+            </ul>
+            <select
+              *ngIf="isUserDoctor()"
+              name="addDrug"
+              id="addDrug"
+              [(ngModel)]="newDrug"
+            >
+              <option *ngFor="let drug of drugs$ | async" [ngValue]="drug">
+                {{ drug.name }}
+              </option>
+            </select>
+            <button *ngIf="isUserDoctor()" (click)="assignDrug()">
+              Assign drug
+            </button>
+          </td>
+          <td>{{ user.email }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div
+    class="appointments-container"
+    *ngIf="
+      (isProfileOwner() && user.role === 'user' && loginState) ||
+      (currentUser.role === 'doctor' && loginState) ||
+      (currentUser.role === 'admin' && loginState)
+    "
   >
-    Request appointment
-  </button>
-
-  <!-- Show editable fields only if the user is a normal user -->
-<div class="profile-table-container">
-  <table *ngIf="user.role === 'user'">
-
-    <thead>
-      <tr>
-        <th>Age</th>
-        <th>Drugs</th>
-        <th>Email</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
-          <label>{{ user.birth_date }}</label><br/>
-          <label>{{ user.age }}</label>
-
-        </td>
-        <td>
-          <ul>
-            <li *ngFor="let drug of user.drugs">
-              <a [routerLink]="['/drug', drug.id]">{{ drug.name }}</a>
-            </li>
-          </ul>
-
-          <!-- Only show the drug assignment for doctors -->
-          <select *ngIf="isUserDoctor()" name="addDrug" id="addDrug" [(ngModel)]="newDrug">
-            <option *ngFor="let drug of drugs$ | async" [ngValue]="drug">{{ drug.name }}</option>
-          </select>
-          <button *ngIf="isUserDoctor()" (click)="assignDrug()">Assign drug</button>
-        </td>
-        <td>
-          {{ user.email }}
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
+    <h3>Appointments</h3>
+    <table *ngIf="appointments$ | async as appointments">
+      <thead>
+        <tr>
+          <th>Appointment Date</th>
+          <th>Doctor</th>
+          <th>Status</th>
+          <th>Report</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let appointment of appointments">
+          <td>{{ appointment.appointment_date | date }}</td>
+          <td>{{ appointment.doctor_username }}</td>
+          <td>{{ appointment.status }}</td>
+          <button (click)="navigateToAppointment(appointment.id!)">
+            Report
+          </button>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <ng-template #loading>

@@ -12,6 +12,7 @@ import { ProfileComponent } from './app/components/profile/profile.component';
 import { AdminDashboardComponent } from './app/components/admin-dashboard/admin-dashboard.component';
 import { DrugComponent } from './app/components/drug/drug.component';
 import { DrugsComponent } from './app/components/drugs/drugs.component';
+import { AppointmentComponent } from './app/components/appointment/appointment.component';
 
 import { authGuard } from './app/guards/auth.guard';
 import { adminGuard } from './app/guards/admin.guard';
@@ -29,5 +30,6 @@ export const routes: Routes = [
     { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [adminGuard] },
     { path: 'drug/:id', component: DrugComponent },
     { path: 'drugs', component: DrugsComponent },
+    { path: 'appointment/:id', component: AppointmentComponent, canActivate: [authGuard] },
     { path: '**', redirectTo: '' }
 ];

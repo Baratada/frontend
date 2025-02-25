@@ -1,0 +1,22 @@
+<div *ngIf="loading">Loading appointment details...</div>
+<div *ngIf="!loading && appointment">
+  <h2>Appointment Details</h2>
+
+  <p><strong>Patient Name:</strong> {{ appointment.username }}</p>
+  <p><strong>Doctor Name:</strong> {{ appointment.doctor_username }}</p>
+  <p>
+    <strong>Appointment Date:</strong>
+    {{ appointment.appointment_date | date : "short" }}
+  </p>
+  <p><strong>Reason:</strong> {{ appointment.reason }}</p>
+  <p><strong>Status:</strong> {{ appointment.status }}</p>
+
+  <div *ngIf="appointment.paper">
+    <h3>Report</h3>
+    <p>{{ appointment.paper }}</p>
+  </div>
+
+  <div *ngIf="!appointment.paper">
+    <button mat-button (click)="writePaper()">Write Report</button>
+  </div>
+</div>

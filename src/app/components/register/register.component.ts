@@ -16,6 +16,7 @@ export class RegisterComponent {
   password: string = '';
   birth_date: Date = new Date();
   maxDate: string = new Date().toISOString().split('T')[0];
+  minDate: string = new Date(new Date().getFullYear() - 100, 0, 1).toISOString().split('T')[0];
 
   
   constructor(private authService: AuthService, private router: Router) {}

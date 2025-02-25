@@ -18,7 +18,7 @@ export class AppointmentService {
 
   // Get a single appointment by ID
   getAppointmentById(id: number): Observable<Appointment> {
-    return this.http.get<Appointment>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() });
+    return this.http.get<Appointment>(`${this.apiUrl}/appointment/${id}`, { headers: this.getAuthHeaders() });
   }
 
   // Create a new appointment
@@ -31,11 +31,16 @@ export class AppointmentService {
     return this.http.patch<Appointment>(`${this.apiUrl}/update-status/${id}`, { status }, { headers: this.getAuthHeaders() });
   }
 
+  getAppointmentsForUser(userId: number): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`${this.apiUrl}/user/${userId}`, { headers: this.getAuthHeaders() });
+  }
   // Delete an appointment
   deleteAppointment(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/delete/${id}`, { headers: this.getAuthHeaders() });
   }
-
+  writePaper(id: number, paper: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/write-paper/${id}`, {paper}, { headers: this.getAuthHeaders() });
+  }
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('auth_token');
     if (!token) {

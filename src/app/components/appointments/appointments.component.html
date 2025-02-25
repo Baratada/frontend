@@ -7,31 +7,56 @@
     <thead>
       <tr>
         <th>Patient</th>
+        <th>Doctor</th>
         <th>Date</th>
         <th>Status</th>
+        <th>Reason</th>
       </tr>
     </thead>
     <tbody>
       <tr
         *ngFor="let appointment of appointments"
         [hidden]="
-          !(appointment.patient_id === userId || appointment.doctor_id === userId)
+          !(
+            appointment.patient_id === userId ||
+            appointment.doctor_id === userId
+          )
         "
       >
-        <td><a [routerLink]="['/profile', userId]">{{ appointment.username }}</a></td>
+        <td>
+          <a [routerLink]="['/profile', userId]">{{ appointment.username }}</a>
+        </td>
+        <td>
+          <a [routerLink]="['/profile', doctorId]">{{
+            appointment.doctor_username
+          }}</a>
+        </td>
         <td>{{ appointment.appointment_date | date : "dd/MM/yyyy" }}</td>
         <td>{{ appointment.status }}</td>
+        <td>{{ appointment.reason }}</td>
+        <td>
+          <button
+            *ngIf="
+              appointment.status === 'pending' &&
+              userId === appointment.doctor_id
+            "
+            (click)="acceptAppointment(appointment.id)"
+          >
+            Accept
+          </button>
+        </td>
         <td>
           <button (click)="deleteAppointment(appointment.id)">Delete</button>
         </td>
         <td>
           <button
             *ngIf="
-              appointment.status === 'pending' && userId === appointment.doctor_id
+              appointment.status === 'confirmed' &&
+              userId === appointment.doctor_id
             "
-            (click)="acceptAppointment(appointment.id)"
+            (click)="writePaper(appointment.id)"
           >
-            Accept
+            Write paper
           </button>
         </td>
       </tr>

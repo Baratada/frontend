@@ -1,0 +1,12 @@
+<h2>Write Report Paper</h2>
+<textarea
+  [(ngModel)]="paperContent"
+  rows="6"
+  cols="40"
+  placeholder="Write your report..."
+></textarea>
+
+<div class="dialog-actions">
+  <button mat-button (click)="close()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="savePaper()">Save</button>
+</div>

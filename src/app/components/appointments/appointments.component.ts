@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AppointmentService } from '../../services/appointmentService/appointment.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { User } from '../../models/user.model';
 import { RouterModule } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { WritePaperDialogComponent } from '../write-paper-dialog/write-paper-dialog.component';
 
 @Component({
   selector: 'app-appointments',
@@ -15,7 +16,8 @@ export class AppointmentsComponent implements OnInit {
   appointments: any[] = [];
   loading = true;
   userId: number = 0;
-  constructor(private appointmentService: AppointmentService) {}
+  doctorId: number = 0;
+  constructor(private appointmentService: AppointmentService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.userId = Number(localStorage.getItem('user_id')) || 0;
@@ -26,6 +28,9 @@ export class AppointmentsComponent implements OnInit {
     this.appointmentService.getAppointments().subscribe(
       (data: any[]) => {
         this.appointments = data;
+        this.appointments.forEach(appointment => {
+          this.doctorId = appointment.doctor_id
+        });
         this.loading = false;
       },
       (error: any) => {
@@ -35,11 +40,22 @@ export class AppointmentsComponent implements OnInit {
     );
   }
   
+  writePaper(appointmentId: number): void {
+    const dialogRef = this.dialog.open(WritePaperDialogComponent, {
+      width: '400px',
+      data: appointmentId
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.fetchAppointments(); // Refresh after saving
+      }
+    });
+  }
   acceptAppointment(id: number): void {
     this.appointmentService.updateAppointment(id, 'confirmed').subscribe(() => {
-      this.appointments = this.appointments.filter((appt) => appt.id !== id);
+      this.fetchAppointments();
     });
-    this.fetchAppointments();
   }
   deleteAppointment(id: number): void {
     if (confirm('Are you sure you want to delete this appointment?')) {
