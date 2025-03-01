@@ -1,6 +1,48 @@
-
 .appointments-table-container {
-    max-height: 400px; // Set a maximum height for the appointments table
-    overflow: auto; // Allow scrolling if content exceeds max height
+  max-height: 400px;
+  overflow: auto;
+  margin: 2rem 0;
+}
+
+.appointments-table-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.appointments-table-container th,
+.appointments-table-container td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.appointments-table-container th {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.appointments-table-container tr:hover {
+  background-color: #f9f9f9;
+}
+
+.appointments-table-container button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.appointments-table-container button:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .appointments-table-container table {
+    display: block;
+    overflow-x: auto;
   }
-  
+}

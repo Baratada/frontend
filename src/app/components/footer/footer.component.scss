@@ -1,19 +1,14 @@
-/* footer.component.scss */
-body {
-  min-height: 100vh; /* Ensure body takes full height */
-  overflow: auto; /* Allow scrolling */
-}
-
 .footer {
   background-color: #333;
-  position: fixed; /* Change to fixed to stick to the bottom */
-  bottom: 0; /* Stick to the bottom */
-  width: 100%;
   color: white;
-  padding: 10px 0; /* Add some padding */
+  padding: 1rem 0;
+  box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  bottom: 0;
+  position: fixed;
 }
 
-.footer .container {
+.container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -28,15 +23,30 @@ body {
 
 .footer-links {
   display: flex;
-  gap: 15px;
+  gap: 1rem;
 }
 
 .footer-links a {
   color: white;
   text-decoration: none;
-  transition: color 0.3s;
+  transition: color 0.3s ease;
 }
 
 .footer-links a:hover {
   color: #007bff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
 }
