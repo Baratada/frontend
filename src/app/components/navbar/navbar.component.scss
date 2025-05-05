@@ -1,6 +1,7 @@
 .navbar {
-  background-color: #333;
+  background-color: #e6c7ff86;
   padding: 1rem 2rem;
+  color: black;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
 
@@ -21,14 +22,14 @@
 }
 
 .navbar-links a {
-  color: white;
+  color: black;
   text-decoration: none;
   font-size: 1rem;
   transition: color 0.3s ease;
 }
 
 .navbar-links a:hover {
-  color: #007bff;
+  color: #e063ff;
 }
 
 #logo {

@@ -16,7 +16,6 @@ export class LoginComponent implements OnInit {
   isLoggedIn: boolean = false;
   username: string = '';
   password: string = '';
-  email: string = '';
   loginError: string | null = null;
 
   constructor(

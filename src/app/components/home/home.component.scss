@@ -1,6 +1,7 @@
 .hero-image {
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.9)), url("/hero.jpg");
   height: 40vh; /* You can adjust this value based on your preference */
+  color: white;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover; /* Ensure the image covers the area */

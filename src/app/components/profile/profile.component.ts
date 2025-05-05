@@ -108,7 +108,7 @@ export class ProfileComponent implements OnInit {
       patient_id: this.currentUserId,
       doctor_id: this.user.id, // The profile being viewed (doctor)
       appointment_date: isoDate, // Use the ISO formatted date
-      reason: prompt("Enter reason for appointment:"),
+      reason: prompt("Enter reason for appointment:") || "",
     };
 
     this.appointmentService.createAppointment(appointment).subscribe(
